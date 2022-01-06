@@ -1,7 +1,9 @@
 package store
 
 import (
+	"encoding/json"
 	"errors"
+	"io/ioutil"
 
 	"github.com/Vivi3008/todoCLI/domain"
 )
@@ -11,18 +13,26 @@ var (
 	ErrEmptyList   = errors.New("todo list is empty")
 )
 
-func (t TodoStore) ListAllTodos() []domain.Todo {
+func (t TodoStore) ListAllTodos() ([]domain.Todo, error) {
 	var list []domain.Todo
 
-	for _, todo := range t.todoStore {
-		list = append(list, todo)
+	file, err := ioutil.ReadFile("database.json")
+
+	if err != nil {
+		return nil, err
 	}
 
-	return list
+	json.Unmarshal(file, &list)
+
+	return list, nil
 }
 
 func (t TodoStore) ListTodoById(id string) (domain.Todo, error) {
-	listTodos := t.ListAllTodos()
+	listTodos, err := t.ListAllTodos()
+
+	if err != nil {
+		return domain.Todo{}, err
+	}
 	var td domain.Todo
 
 	if len(listTodos) == 0 {

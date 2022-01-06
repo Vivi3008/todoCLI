@@ -47,8 +47,8 @@ func TestListOneTodo(t *testing.T) {
 				OnListById: func(id string) (domain.Todo, error) {
 					return tdTestId[0], nil
 				},
-				OnListAll: func() []domain.Todo {
-					return tdTestId
+				OnListAll: func() ([]domain.Todo, error) {
+					return tdTestId, nil
 				},
 			},
 			arg:  tdTestId[0].Id,
@@ -65,8 +65,8 @@ func TestListOneTodo(t *testing.T) {
 					}
 					return domain.Todo{}, domain.ErrEmptyValues
 				},
-				OnListAll: func() []domain.Todo {
-					return tdTestId
+				OnListAll: func() ([]domain.Todo, error) {
+					return tdTestId, nil
 				},
 			},
 			want: domain.Todo{},

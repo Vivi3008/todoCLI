@@ -2,12 +2,12 @@ package domain
 
 type TodoMock struct {
 	OnStoreTodo  func(todo Todo) error
-	OnListAll    func() []Todo
+	OnListAll    func() ([]Todo, error)
 	OnListById   func(id string) (Todo, error)
 	OnDeleteById func(id string) error
 }
 
-func (m TodoMock) ListAllTodos() []Todo {
+func (m TodoMock) ListAllTodos() ([]Todo, error) {
 	return m.OnListAll()
 }
 

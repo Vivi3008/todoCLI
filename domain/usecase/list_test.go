@@ -1,6 +1,7 @@
 package usecase
 
 import (
+	"errors"
 	"reflect"
 	"testing"
 
@@ -36,26 +37,29 @@ func TestListAll(t *testing.T) {
 		name       string
 		repository domain.Repository
 		want       []domain.Todo
+		err        error
 	}
 
 	testCases := []TestCase{
 		{
 			name: "Should list all todos",
 			repository: domain.TodoMock{
-				OnListAll: func() []domain.Todo {
-					return TdTest
+				OnListAll: func() ([]domain.Todo, error) {
+					return TdTest, nil
 				},
 			},
 			want: TdTest,
+			err:  nil,
 		},
 		{
 			name: "Should list empty",
 			repository: domain.TodoMock{
-				OnListAll: func() []domain.Todo {
-					return []domain.Todo{}
+				OnListAll: func() ([]domain.Todo, error) {
+					return []domain.Todo{}, nil
 				},
 			},
 			want: []domain.Todo{},
+			err:  nil,
 		},
 	}
 
@@ -66,7 +70,11 @@ func TestListAll(t *testing.T) {
 
 			uc := NewTodoUsecase(tt.repository)
 
-			got := uc.ListAll()
+			got, err := uc.ListAll()
+
+			if errors.Is(tt.err, err) {
+				t.Errorf("Expected %s, got %s", tt.err, err)
+			}
 
 			if !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("Expected %v, got %v", tt.want, got)

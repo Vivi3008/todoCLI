@@ -1,6 +1,7 @@
 package store
 
 import (
+	"errors"
 	"reflect"
 	"testing"
 
@@ -70,7 +71,11 @@ func TestListTodos(t *testing.T) {
 			if tt.runBefore {
 				runBefore()
 			}
-			got := tdSt.ListAllTodos()
+			got, err := tdSt.ListAllTodos()
+
+			if !errors.Is(tt.err, err) {
+				t.Errorf("Expeceted %s, got %s", tt.err, err)
+			}
 			tt.want = got
 
 			if !reflect.DeepEqual(got, tt.want) {
