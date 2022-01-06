@@ -14,13 +14,6 @@
         "CreatedAt": "2022-01-06T11:24:24.112643353-03:00"
     },
     {
-        "Id": "beb57eac-e6b9-4567-b708-29a82dcf3303",
-        "Description": "Fazer café sem açúcar",
-        "Status": "Pending",
-        "Priority": "High",
-        "CreatedAt": "2022-01-06T12:00:43.900930869-03:00"
-    },
-    {
         "Id": "42d2e132-d043-4a67-b000-ba32a3651260",
         "Description": "Fazer café sem açúcar",
         "Status": "Pending",

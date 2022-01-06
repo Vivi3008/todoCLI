@@ -23,16 +23,26 @@ func (t TodoStore) StoreTodo(td domain.Todo) error {
 }
 
 func (t TodoStore) DeleteTodoId(id string) error {
-	var del bool
-	for _, v := range t.todoStore {
-		if v.Id == id {
-			delete(t.todoStore, v.Id)
-			del = true
+	list, err := t.ListAllTodos()
+
+	if err != nil {
+		return err
+	}
+
+	var newList []domain.Todo
+
+	for _, v := range list {
+		if v.Id != id {
+			newList = append(newList, v)
 		}
 	}
-	if !del {
-		return ErrIdNotExists
+	jsonTodo, err := json.Marshal(newList)
+
+	if err != nil {
+		return err
 	}
+
+	ioutil.WriteFile("database.json", jsonTodo, os.ModeAppend)
 	return nil
 }
 
