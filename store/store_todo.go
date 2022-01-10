@@ -53,6 +53,14 @@ func (t TodoStore) DeleteTodoId(id string) error {
 	return nil
 }
 
+func (t TodoStore) DeleteAll() error {
+	err := ioutil.WriteFile("database.json", []byte{}, os.ModeAppend)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
 func (t TodoStore) WriteFile(todo domain.Todo, source string) error {
 	listTodos, err := t.ListAllTodos()
 

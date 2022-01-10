@@ -3,38 +3,16 @@ package store
 import (
 	"errors"
 	"testing"
-
-	"github.com/Vivi3008/todoCLI/domain"
-	"github.com/google/uuid"
 )
 
 func TestDeleteTodo(t *testing.T) {
-
 	type TestCase struct {
 		name string
 		arg  string
 		err  error
 	}
 
-	todos := []domain.Todo{
-		{
-			Id:          uuid.New().String(),
-			Description: "Dormir",
-			Status:      domain.Pend,
-			Priority:    domain.Normal},
-		{
-			Id:          uuid.New().String(),
-			Description: "Comer chocolate",
-			Status:      domain.Done,
-			Priority:    domain.High,
-		},
-		{
-			Id:          uuid.New().String(),
-			Description: "Jogar Game",
-			Status:      domain.Pend,
-			Priority:    domain.Normal,
-		},
-	}
+	todos := ListTodosMock()
 
 	testCases := []TestCase{
 		{
