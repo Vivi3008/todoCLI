@@ -8,10 +8,13 @@ import (
 	"github.com/google/uuid"
 )
 
-var tdDel = NewTodoStore()
-
 func TestDeleteTodo(t *testing.T) {
-	t.Parallel()
+
+	type TestCase struct {
+		name string
+		arg  string
+		err  error
+	}
 
 	todos := []domain.Todo{
 		{
@@ -33,16 +36,6 @@ func TestDeleteTodo(t *testing.T) {
 		},
 	}
 
-	for _, v := range todos {
-		_ = tdDel.StoreTodo(v)
-	}
-
-	type TestCase struct {
-		name string
-		arg  string
-		err  error
-	}
-
 	testCases := []TestCase{
 		{
 			name: "Should delete a todo successfull",
@@ -59,9 +52,9 @@ func TestDeleteTodo(t *testing.T) {
 	for _, tc := range testCases {
 		tt := tc
 		t.Run(tt.name, func(t *testing.T) {
-			t.Parallel()
+			_ = todoStore.StoreTodo(todos[0])
 
-			got := tdDel.DeleteTodoId(tt.arg)
+			got := todoStore.DeleteTodoId(tt.arg)
 
 			if !errors.Is(got, tt.err) {
 				t.Errorf("Expected %s, got %s", tt.err, got)

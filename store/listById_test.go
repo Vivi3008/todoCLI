@@ -6,37 +6,10 @@ import (
 	"testing"
 
 	"github.com/Vivi3008/todoCLI/domain"
-	"github.com/google/uuid"
 )
 
-var tdStore = NewTodoStore()
-
 func TestListTodoById(t *testing.T) {
-	t.Parallel()
-
-	tdTestId := []domain.Todo{
-		{
-			Id:          uuid.New().String(),
-			Description: "Dormir",
-			Status:      domain.Pend,
-			Priority:    domain.Normal},
-		{
-			Id:          uuid.New().String(),
-			Description: "Comer chocolate",
-			Status:      domain.Done,
-			Priority:    domain.High,
-		},
-		{
-			Id:          uuid.New().String(),
-			Description: "Jogar Game",
-			Status:      domain.Pend,
-			Priority:    domain.Normal,
-		},
-	}
-
-	for _, v := range tdTestId {
-		_ = tdStore.StoreTodo(v)
-	}
+	todos := ListTodosMock()
 
 	type TestCase struct {
 		name string
@@ -48,8 +21,8 @@ func TestListTodoById(t *testing.T) {
 	testCases := []TestCase{
 		{
 			name: "Should list todo by id",
-			arg:  tdTestId[0].Id,
-			want: tdTestId[0],
+			arg:  todos[0].Id,
+			want: todos[0],
 			err:  nil,
 		},
 		{
@@ -63,9 +36,8 @@ func TestListTodoById(t *testing.T) {
 	for _, tc := range testCases {
 		tt := tc
 		t.Run(tt.name, func(t *testing.T) {
-			t.Parallel()
-
-			got, err := tdStore.ListTodoById(tt.arg)
+			_ = todoStore.StoreTodo(todos[0])
+			got, err := todoStore.ListTodoById(tt.arg)
 
 			if !errors.Is(err, tt.err) {
 				t.Errorf("Expected %s, got %s", tt.err, err)

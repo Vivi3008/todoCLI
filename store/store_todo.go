@@ -23,6 +23,12 @@ func (t TodoStore) StoreTodo(td domain.Todo) error {
 }
 
 func (t TodoStore) DeleteTodoId(id string) error {
+	_, err := t.ListTodoById(id)
+
+	if err != nil {
+		return err
+	}
+
 	list, err := t.ListAllTodos()
 
 	if err != nil {
@@ -36,6 +42,7 @@ func (t TodoStore) DeleteTodoId(id string) error {
 			newList = append(newList, v)
 		}
 	}
+
 	jsonTodo, err := json.Marshal(newList)
 
 	if err != nil {
