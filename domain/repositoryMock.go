@@ -5,6 +5,7 @@ type TodoMock struct {
 	OnListAll    func() ([]Todo, error)
 	OnListById   func(id string) (Todo, error)
 	OnDeleteById func(id string) error
+	OnDeleteAll  func() error
 }
 
 func (m TodoMock) ListAllTodos() ([]Todo, error) {
@@ -21,4 +22,8 @@ func (m TodoMock) StoreTodo(todo Todo) error {
 
 func (m TodoMock) DeleteTodoId(id string) error {
 	return m.OnDeleteById(id)
+}
+
+func (m TodoMock) DeleteAll() error {
+	return m.OnDeleteAll()
 }

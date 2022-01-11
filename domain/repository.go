@@ -5,4 +5,5 @@ type Repository interface {
 	ListAllTodos() ([]Todo, error)
 	ListTodoById(id string) (Todo, error)
 	DeleteTodoId(id string) error
+	DeleteAll() error
 }
