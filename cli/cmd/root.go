@@ -9,6 +9,7 @@ import (
 	"os"
 
 	crud "github.com/Vivi3008/todoCLI/cli/Crud"
+	"github.com/Vivi3008/todoCLI/cli/commom"
 	"github.com/Vivi3008/todoCLI/domain"
 	"github.com/Vivi3008/todoCLI/domain/usecase"
 	"github.com/Vivi3008/todoCLI/store"
@@ -41,7 +42,7 @@ func Add() *cobra.Command {
 			for _, txt := range args {
 				description += fmt.Sprintf("%s ", txt)
 			}
-			priority := getPriority(cmd)
+			priority := commom.GetPriority(cmd)
 
 			todo := domain.Todo{
 				Description: description,
@@ -70,18 +71,6 @@ func Execute() {
 	if err != nil {
 		os.Exit(1)
 	}
-}
-
-func getPriority(cmd *cobra.Command) domain.Priority {
-	high, _ := cmd.Flags().GetBool("high")
-	low, _ := cmd.Flags().GetBool("low")
-	if high {
-		return domain.High
-	}
-	if low {
-		return domain.Low
-	}
-	return domain.Normal
 }
 
 func init() {
