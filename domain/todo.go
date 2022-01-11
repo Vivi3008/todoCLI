@@ -22,7 +22,7 @@ const (
 )
 
 var (
-	ErrEmptyValues = errors.New("description, status or priority can't be empty")
+	ErrEmptyValues = errors.New("description, or priority can't be empty")
 )
 
 type Todo struct {
@@ -34,8 +34,12 @@ type Todo struct {
 }
 
 func NewTodo(td Todo) (Todo, error) {
-	if td.Description == "" || td.Status == "" || td.Priority == "" {
+	if td.Description == "" || td.Priority == "" {
 		return Todo{}, ErrEmptyValues
+	}
+
+	if td.Status == "" {
+		td.Status = Pend
 	}
 
 	return Todo{
