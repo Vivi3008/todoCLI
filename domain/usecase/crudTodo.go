@@ -56,3 +56,11 @@ func (tc TodoUsecase) DeleteTodo(id string) error {
 	}
 	return nil
 }
+
+func (tc TodoUsecase) DeleteAllTodos() error {
+	err := tc.tdUse.DeleteAll()
+	if err != nil {
+		return err
+	}
+	return nil
+}
