@@ -72,7 +72,7 @@ func TestListAll(t *testing.T) {
 
 			got, err := uc.ListAll()
 
-			if errors.Is(tt.err, err) {
+			if !errors.Is(tt.err, err) {
 				t.Errorf("Expected %s, got %s", tt.err, err)
 			}
 
