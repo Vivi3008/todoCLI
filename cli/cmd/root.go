@@ -8,7 +8,6 @@ import (
 	"fmt"
 	"os"
 
-	crud "github.com/Vivi3008/todoCLI/cli/Crud"
 	"github.com/Vivi3008/todoCLI/cli/commom"
 	"github.com/Vivi3008/todoCLI/domain"
 	"github.com/Vivi3008/todoCLI/domain/usecase"
@@ -49,7 +48,7 @@ func Add() *cobra.Command {
 				Priority:    priority,
 			}
 
-			newTodo, err := crud.AddTodo(todoUsecase, todo)
+			newTodo, err := todoUsecase.CreateTodo(todo)
 
 			if err != nil {
 				fmt.Println(err)

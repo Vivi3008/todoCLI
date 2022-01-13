@@ -13,12 +13,18 @@ var (
 	ErrStore = errors.New("err: todo has missing values")
 )
 
+var source = "../teste.json"
+
 func (t TodoStore) StoreTodo(td domain.Todo) error {
 	if td.Id == "" {
 		return ErrStore
 	}
 	t.todoStore[td.Id] = td
-	t.WriteFile(td, "database.json")
+	err := t.WriteFileList(td)
+
+	if err != nil {
+		return err
+	}
 	return nil
 }
 
@@ -49,19 +55,22 @@ func (t TodoStore) DeleteTodoId(id string) error {
 		return err
 	}
 
-	ioutil.WriteFile("database.json", jsonTodo, os.ModeAppend)
-	return nil
-}
-
-func (t TodoStore) DeleteAll() error {
-	err := ioutil.WriteFile("database.json", []byte{}, os.ModeAppend)
+	err = ioutil.WriteFile(source, jsonTodo, os.ModeAppend)
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func (t TodoStore) WriteFile(todo domain.Todo, source string) error {
+func (t TodoStore) DeleteAll() error {
+	err := ioutil.WriteFile(source, []byte{}, os.ModeAppend)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (t TodoStore) WriteFileList(todo domain.Todo) error {
 	listTodos, err := t.ListAllTodos()
 
 	if err != nil {
@@ -74,8 +83,15 @@ func (t TodoStore) WriteFile(todo domain.Todo, source string) error {
 	if err != nil {
 		return err
 	}
+	err = os.Chmod("../database.json", 0777)
+	if err != nil {
+		return err
+	}
+	err = ioutil.WriteFile("../database.json", jsonTodo, os.ModeAppend)
 
-	ioutil.WriteFile(source, jsonTodo, os.ModeAppend)
+	if err != nil {
+		return err
+	}
 
 	return nil
 }
