@@ -29,6 +29,7 @@ var rootCmd = &cobra.Command{
 	// Run: func(cmd *cobra.Command, args []string) {}
 }
 
+//comando para adicionar todo
 func Add() *cobra.Command {
 	addCmd := &cobra.Command{
 		Use:   "add",
@@ -81,5 +82,4 @@ func init() {
 	// Cobra also supports local flags, which will only run
 	// when this action is called directly.
 	rootCmd.Flags().BoolP("toggle", "t", true, "Help message for toggle")
-
 }

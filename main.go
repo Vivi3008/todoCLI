@@ -13,13 +13,13 @@ func main() {
 	tdUsecase := usecase.NewTodoUsecase(todoStore)
 
 	todo := domain.Todo{
-		Description: "Fazer café sem açúcar",
+		Description: "Fazer sexo",
 		Priority:    domain.High,
 	}
 
 	got, err := tdUsecase.CreateTodo(todo)
 
-	/* 	err := tdUsecase.DeleteTodo("beb57eac-e6b9-4567-b708-29a82dcf3303")*/
+	/* 	err := tdUsecase.DeleteAllTodos() */
 	if err != nil {
 		fmt.Printf("Error %s\n", err)
 	} else {

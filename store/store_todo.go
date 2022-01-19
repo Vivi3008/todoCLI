@@ -13,7 +13,7 @@ var (
 	ErrStore = errors.New("err: todo has missing values")
 )
 
-var source = "../teste.json"
+var source = "database.json"
 
 func (t TodoStore) StoreTodo(td domain.Todo) error {
 	if td.Id == "" {
@@ -83,11 +83,11 @@ func (t TodoStore) WriteFileList(todo domain.Todo) error {
 	if err != nil {
 		return err
 	}
-	err = os.Chmod("../database.json", 0777)
+	err = os.Chmod(source, 0777)
 	if err != nil {
 		return err
 	}
-	err = ioutil.WriteFile("../database.json", jsonTodo, os.ModeAppend)
+	err = ioutil.WriteFile(source, jsonTodo, os.ModeAppend)
 
 	if err != nil {
 		return err
