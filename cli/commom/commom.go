@@ -8,11 +8,16 @@ import (
 func GetPriority(cmd *cobra.Command) domain.Priority {
 	high, _ := cmd.Flags().GetBool("high")
 	low, _ := cmd.Flags().GetBool("low")
-	if high {
-		return domain.High
+
+	var priority domain.Priority
+
+	switch {
+	case high:
+		priority = domain.High
+	case low:
+		priority = domain.Low
+	default:
+		priority = domain.Normal
 	}
-	if low {
-		return domain.Low
-	}
-	return domain.Normal
+	return priority
 }
