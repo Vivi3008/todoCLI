@@ -6,14 +6,11 @@ import (
 	"github.com/Vivi3008/todoCLI/cli/commom"
 	"github.com/Vivi3008/todoCLI/domain"
 	"github.com/Vivi3008/todoCLI/domain/usecase"
-	"github.com/Vivi3008/todoCLI/store"
 	"github.com/spf13/cobra"
+	"github.com/ttacon/chalk"
 )
 
-var todoStore = store.NewTodoStore()
-var todoUsecase = usecase.NewTodoUsecase(todoStore)
-
-func Add() *cobra.Command {
+func Add(usecase usecase.TodoUsecase) *cobra.Command {
 	addCmd := &cobra.Command{
 		Use:   "add",
 		Short: "Add a task to do",
@@ -22,9 +19,15 @@ func Add() *cobra.Command {
 				fmt.Println("Need todo description")
 			}
 			var description string
-			for _, txt := range args {
+			for i, txt := range args {
+				//remover espaço da ultima palavra
+				if i == (len(args) - 1) {
+					description += txt
+					break
+				}
 				description += fmt.Sprintf("%s ", txt)
 			}
+
 			priority := commom.GetPriority(cmd)
 
 			todo := domain.Todo{
@@ -32,12 +35,13 @@ func Add() *cobra.Command {
 				Priority:    priority,
 			}
 
-			newTodo, err := todoUsecase.CreateTodo(todo)
+			newTodo, err := usecase.CreateTodo(todo)
 
 			if err != nil {
 				fmt.Println(err)
 			} else {
-				fmt.Println(newTodo)
+				commom.PrintTodo(newTodo)
+				fmt.Println(chalk.Green, "New task added sucessfully!", chalk.Reset)
 			}
 		},
 	}

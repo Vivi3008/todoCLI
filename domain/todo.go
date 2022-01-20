@@ -2,9 +2,8 @@ package domain
 
 import (
 	"errors"
+	"math/rand"
 	"time"
-
-	"github.com/google/uuid"
 )
 
 type Status string
@@ -43,10 +42,27 @@ func NewTodo(td Todo) (Todo, error) {
 	}
 
 	return Todo{
-		Id:          uuid.New().String(),
+		Id:          StringWithCharset(3),
 		Description: td.Description,
 		Status:      td.Status,
 		Priority:    td.Priority,
 		CreatedAt:   time.Now(),
 	}, nil
+}
+
+const charset = "12345678910"
+
+var seededRand *rand.Rand = rand.New(
+	rand.NewSource(time.Now().UnixNano()))
+
+func StringWithCharset(length int) string {
+	b := make([]byte, length)
+	for i := range b {
+		b[i] = charset[seededRand.Intn(len(charset))]
+	}
+	return string(b)
+}
+
+func String(length int) string {
+	return StringWithCharset(length)
 }
