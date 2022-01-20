@@ -5,18 +5,12 @@ Copyright © 2022 NAME HERE <EMAIL ADDRESS>
 package cmd
 
 import (
-	"fmt"
 	"os"
 
-	"github.com/Vivi3008/todoCLI/cli/commom"
-	"github.com/Vivi3008/todoCLI/domain"
 	"github.com/Vivi3008/todoCLI/domain/usecase"
-	"github.com/Vivi3008/todoCLI/store"
+	commands "github.com/Vivi3008/todoCLI/task/Commands"
 	"github.com/spf13/cobra"
 )
-
-var todoStore = store.NewTodoStore()
-var todoUsecase = usecase.NewTodoUsecase(todoStore)
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
@@ -29,44 +23,17 @@ var rootCmd = &cobra.Command{
 	// Run: func(cmd *cobra.Command, args []string) {}
 }
 
-//comando para adicionar todo
-func Add() *cobra.Command {
-	addCmd := &cobra.Command{
-		Use:   "add",
-		Short: "Add a task to do",
-		Run: func(cmd *cobra.Command, args []string) {
-			if len(args) == 0 {
-				fmt.Println("Need todo description")
-			}
-			var description string
-			for _, txt := range args {
-				description += fmt.Sprintf("%s ", txt)
-			}
-			priority := commom.GetPriority(cmd)
-
-			todo := domain.Todo{
-				Description: description,
-				Priority:    priority,
-			}
-
-			newTodo, err := todoUsecase.CreateTodo(todo)
-
-			if err != nil {
-				fmt.Println(err)
-			} else {
-				fmt.Println(newTodo)
-			}
-		},
-	}
-	addCmd.Flags().BoolP("high", "H", false, "Define a todo normal priority.")
-	addCmd.Flags().BoolP("low", "L", false, "Define a todo low priority.")
-	return addCmd
-}
-
 // Execute adds all child commands to the root command and sets flags appropriately.
 // This is called by main.main(). It only needs to happen once to the rootCmd.
-func Execute() {
-	rootCmd.AddCommand(Add())
+func Execute(usecase usecase.TodoUsecase) {
+	rootCmd.AddCommand(
+		commands.Add(usecase),
+		commands.Delete(usecase),
+		commands.DeleteAll(usecase),
+		commands.ListAllTodos(usecase),
+		commands.ListById(usecase),
+		commands.Update(usecase),
+	)
 	err := rootCmd.Execute()
 	if err != nil {
 		os.Exit(1)
