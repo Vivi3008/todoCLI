@@ -3,9 +3,9 @@ package commands
 import (
 	"fmt"
 
+	"github.com/Vivi3008/todoCLI/cli/commom"
 	"github.com/Vivi3008/todoCLI/domain/usecase"
 	"github.com/alexeyco/simpletable"
-	"github.com/cheynewallace/tabby"
 	"github.com/spf13/cobra"
 	"github.com/ttacon/chalk"
 )
@@ -70,10 +70,7 @@ func ListById(usecase usecase.TodoUsecase) *cobra.Command {
 					fmt.Println(chalk.Red, err)
 				}
 
-				t := tabby.New()
-				t.AddHeader("Id", "Description", "Status", "Priority", "Date")
-				t.AddLine(todo.Id, todo.Description, todo.Status, todo.Priority, todo.CreatedAt.Format("02-01-2006"))
-				t.Print()
+				commom.PrintTodo(todo)
 			}
 		},
 	}

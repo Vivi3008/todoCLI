@@ -39,7 +39,7 @@ func Add(usecase usecase.TodoUsecase) *cobra.Command {
 			if err != nil {
 				fmt.Println(err)
 			} else {
-				fmt.Println(newTodo)
+				commom.PrintTodo(newTodo)
 			}
 		},
 	}
