@@ -47,4 +47,4 @@ Deletar todos:
 ./task delete
 ~~~
 
-
+![](./todoCli.png)
