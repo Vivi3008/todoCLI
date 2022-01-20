@@ -7,6 +7,7 @@ import (
 	"github.com/Vivi3008/todoCLI/domain"
 	"github.com/Vivi3008/todoCLI/domain/usecase"
 	"github.com/spf13/cobra"
+	"github.com/ttacon/chalk"
 )
 
 func Add(usecase usecase.TodoUsecase) *cobra.Command {
@@ -40,6 +41,7 @@ func Add(usecase usecase.TodoUsecase) *cobra.Command {
 				fmt.Println(err)
 			} else {
 				commom.PrintTodo(newTodo)
+				fmt.Println(chalk.Green, "New task added sucessfully!", chalk.Reset)
 			}
 		},
 	}

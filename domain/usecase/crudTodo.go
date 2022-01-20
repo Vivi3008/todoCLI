@@ -33,6 +33,12 @@ func (tc TodoUsecase) UpdateTodo(id string) (domain.Todo, error) {
 		return domain.Todo{}, err
 	}
 
+	err = tc.tdUse.DeleteTodoId(tod.Id)
+
+	if err != nil {
+		return domain.Todo{}, err
+	}
+
 	//mark todo as done or pending
 	if tod.Status == domain.Pend {
 		tod.Status = domain.Done

@@ -21,10 +21,11 @@ func Update(usecase usecase.TodoUsecase) *cobra.Command {
 				todo, err := usecase.UpdateTodo(id)
 
 				if err != nil {
-					fmt.Println(chalk.Red, err)
-				}
+					fmt.Println(chalk.Red, err, chalk.Reset)
 
-				commom.PrintTodo(todo)
+				} else {
+					commom.PrintTodo(todo)
+				}
 			}
 		},
 	}

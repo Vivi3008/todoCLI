@@ -5,14 +5,13 @@ import (
 
 	"github.com/Vivi3008/todoCLI/cli/commom"
 	"github.com/Vivi3008/todoCLI/domain/usecase"
-	"github.com/alexeyco/simpletable"
 	"github.com/spf13/cobra"
 	"github.com/ttacon/chalk"
 )
 
 func ListAllTodos(usecase usecase.TodoUsecase) *cobra.Command {
 	addCmd := &cobra.Command{
-		Use:   "list",
+		Use:   "list-all",
 		Short: "List all to do's",
 		Run: func(cmd *cobra.Command, args []string) {
 			todos, err := usecase.ListAll()
@@ -22,33 +21,9 @@ func ListAllTodos(usecase usecase.TodoUsecase) *cobra.Command {
 			}
 
 			if len(todos) == 0 {
-				fmt.Println("You don't have to do's", chalk.ResetColor)
+				fmt.Println(chalk.Yellow, "You don't have to do's", chalk.ResetColor)
 			} else {
-				t := simpletable.New()
-				t.Header = &simpletable.Header{
-					Cells: []*simpletable.Cell{
-						{Align: simpletable.AlignCenter, Text: "Id"},
-						{Align: simpletable.AlignCenter, Text: "Description"},
-						{Align: simpletable.AlignCenter, Text: "Status"},
-						{Align: simpletable.AlignCenter, Text: "Priority"},
-						{Align: simpletable.AlignCenter, Text: "Date"},
-					},
-				}
-
-				for _, td := range todos {
-					r := []*simpletable.Cell{
-						{Align: simpletable.AlignRight, Text: td.Id},
-						{Text: td.Description},
-						{Align: simpletable.AlignRight, Text: string(td.Status)},
-						{Align: simpletable.AlignRight, Text: string(td.Priority)},
-						{Align: simpletable.AlignRight, Text: string(td.CreatedAt.Format("02-01-2006"))},
-					}
-
-					t.Body.Cells = append(t.Body.Cells, r)
-				}
-
-				t.SetStyle(simpletable.StyleDefault)
-				fmt.Println(t.String())
+				commom.PrintTableTodos(todos)
 			}
 		},
 	}
@@ -57,7 +32,7 @@ func ListAllTodos(usecase usecase.TodoUsecase) *cobra.Command {
 
 func ListById(usecase usecase.TodoUsecase) *cobra.Command {
 	addCmd := &cobra.Command{
-		Use:   "list-one",
+		Use:   "list",
 		Short: "List todo by Id",
 		Run: func(cmd *cobra.Command, args []string) {
 			if len(args) == 0 {
@@ -67,10 +42,11 @@ func ListById(usecase usecase.TodoUsecase) *cobra.Command {
 				todo, err := usecase.ListTodoId(id)
 
 				if err != nil {
-					fmt.Println(chalk.Red, err)
-				}
+					fmt.Println(chalk.Red, err, chalk.Reset)
 
-				commom.PrintTodo(todo)
+				} else {
+					commom.PrintTodo(todo)
+				}
 			}
 		},
 	}

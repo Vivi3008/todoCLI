@@ -5,6 +5,7 @@ import (
 
 	"github.com/Vivi3008/todoCLI/domain/usecase"
 	"github.com/spf13/cobra"
+	"github.com/ttacon/chalk"
 )
 
 func Delete(usecase usecase.TodoUsecase) *cobra.Command {
@@ -20,7 +21,9 @@ func Delete(usecase usecase.TodoUsecase) *cobra.Command {
 			err := usecase.DeleteTodo(id)
 
 			if err != nil {
-				fmt.Println(err)
+				fmt.Println(chalk.Red, err, chalk.Reset)
+			} else {
+				fmt.Println(chalk.Green, "Task deleted sucessfully!", chalk.Reset)
 			}
 		},
 	}
@@ -35,8 +38,11 @@ func DeleteAll(usecase usecase.TodoUsecase) *cobra.Command {
 			err := usecase.DeleteAllTodos()
 
 			if err != nil {
-				fmt.Println(err)
+				fmt.Println(chalk.Red, err, chalk.Reset)
+			} else {
+				fmt.Println(chalk.Green, "Task deleted sucessfully!", chalk.Reset)
 			}
+
 		},
 	}
 	return addCmd
