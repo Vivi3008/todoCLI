@@ -45,3 +45,38 @@ func Add() *cobra.Command {
 	addCmd.Flags().BoolP("low", "L", false, "Define a todo low priority.")
 	return addCmd
 }
+
+func Delete() *cobra.Command {
+	addCmd := &cobra.Command{
+		Use:   "remove",
+		Short: "Remove to do",
+		Run: func(cmd *cobra.Command, args []string) {
+			if len(args) == 0 {
+				fmt.Println("Need todo ID!")
+			}
+
+			id := args[0]
+			err := todoUsecase.DeleteTodo(id)
+
+			if err != nil {
+				fmt.Println(err)
+			}
+		},
+	}
+	return addCmd
+}
+
+func DeleteAll() *cobra.Command {
+	addCmd := &cobra.Command{
+		Use:   "delete",
+		Short: "Delete all to do's",
+		Run: func(cmd *cobra.Command, args []string) {
+			err := todoUsecase.DeleteAllTodos()
+
+			if err != nil {
+				fmt.Println(err)
+			}
+		},
+	}
+	return addCmd
+}
