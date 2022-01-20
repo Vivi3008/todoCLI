@@ -30,6 +30,8 @@ func Execute(usecase usecase.TodoUsecase) {
 		commands.Add(usecase),
 		commands.Delete(usecase),
 		commands.DeleteAll(usecase),
+		commands.ListAllTodos(usecase),
+		commands.ListById(usecase),
 	)
 	err := rootCmd.Execute()
 	if err != nil {
