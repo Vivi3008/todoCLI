@@ -7,8 +7,8 @@ package cmd
 import (
 	"os"
 
-	commands "github.com/Vivi3008/todoCLI/cli/Commands"
 	"github.com/Vivi3008/todoCLI/domain/usecase"
+	commands "github.com/Vivi3008/todoCLI/task/Commands"
 	"github.com/spf13/cobra"
 )
 
