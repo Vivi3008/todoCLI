@@ -1,7 +1,7 @@
 #Todo CLI
 
-Comando para adicionar um todo:
-``go run main.go add "descricao de um todo" -H``
+Comando para adicionar um todo na raiz do projeto:
+``go run cli/main.go add "descricao de um todo" -H``
 
 Seguido das flags de prioridade:
 - -H ou --high
