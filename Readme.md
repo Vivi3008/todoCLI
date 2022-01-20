@@ -12,7 +12,7 @@ Command Line Interface que permite gerenciar uma lista de tarefas
 Comando para adicionar uma task:
 
 ~~~shell
-go run main.go add "descricao de um todo" -H
+./task add "descricao de um todo" -H
 ~~~
 
 Seguido das flags de prioridade:
@@ -23,28 +23,28 @@ Seguido das flags de prioridade:
 Listar todos:
 
 ~~~shell
-go run cli/main.go list-all
+./task list-all
 ~~~
 
 Listar um todo pelo Id:
 ~~~shell
-go run cli/main.go list "id"
+./task list "id"
 ~~~
 
 Atualizar o status de um todo:
 ~~~shell
-go run cli/main.go update "id"
+./task update "id"
 ~~~
 
 
 Deletar um todo:
 ~~~shell
-go run cli/main.go remove "id"
+./task remove "id"
 ~~~
 
 Deletar todos:
 ~~~shell
-go run cli/main.go delete
+./task delete
 ~~~
 
 
